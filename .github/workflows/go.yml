@@ -1,0 +1,36 @@
+name: ci-qna
+
+on: push
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb_test:
+        image: postgres:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{secrets.DB_TEST_USERNAME}}
+          MONGO_INITDB_ROOT_PASSWORD: ${{secrets.DB_TEST_PASSWORD}}
+        ports:
+          - 27011:27011
+
+    steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.18
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Create .env
+        run: touch .env
+
+      - name: Test
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        run: go test -v ./...

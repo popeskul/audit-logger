@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+// from root of the project
+// protoc --go_out=. --go-grpc_out=. proto/audit.proto
+option go_package = "pkg/domain";
+
+service AuditService {
+  rpc Log(LogRequest) returns (Empty) {}
+}
+
+message Empty {}
+
+message LogRequest {
+  enum Actions {
+    REGISTER = 0;
+    LOGIN = 1;
+    CREATE = 2;
+    UPDATE = 3;
+    GET = 4;
+    DELETE = 5;
+  }
+  enum Entities {
+    USER = 0;
+    TEST = 1;
+  }
+
+  Actions action = 1;
+  Entities entity = 2;
+  int64 entity_id = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
