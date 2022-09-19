@@ -9,7 +9,7 @@ jobs:
 
     services:
       mongodb_test:
-        image: postgres:latest
+        image: mongo
         env:
           MONGO_INITDB_ROOT_USERNAME: ${{secrets.DB_TEST_USERNAME}}
           MONGO_INITDB_ROOT_PASSWORD: ${{secrets.DB_TEST_PASSWORD}}
