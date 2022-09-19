@@ -13,8 +13,14 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: ${{secrets.DB_TEST_USERNAME}}
           MONGO_INITDB_ROOT_PASSWORD: ${{secrets.DB_TEST_PASSWORD}}
+          MONGO_INITDB_DATABASE: audit
         ports:
-          - 27011:27011
+          - 27011:27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Set up Go 1.x
@@ -31,6 +37,6 @@ jobs:
 
       - name: Test
         env:
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_TEST_PASSWORD }}
+          DB_USERNAME: ${{ secrets.DB_TEST_USERNAME }}
         run: go test -v ./...
