@@ -5,3 +5,7 @@ db:
 server:
   host: "localhost"
   port: 9000
+
+queue:
+  host: "rabbitmq"
+  port: 5672
