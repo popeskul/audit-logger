@@ -1,0 +1,11 @@
+db:
+  host: "127.0.0.1"
+  port: 27017
+
+server:
+  host: "localhost"
+  port: 9000
+
+queue:
+  host: "rabbitmq"
+  port: 5672
